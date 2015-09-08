@@ -1,7 +1,3 @@
-<!-- We have a lot of erb files now, and it's getting annoying to write out our html shell on each page. 
-Sinatra has an awesome build in solution - by default, it will render a file called 'layout.erb' at each route. 
-Within this file, we use the yield command - this will render whatever file we specified.  -->
-
 <!doctype html>
 <html>
   <head>
@@ -12,10 +8,8 @@ Within this file, we use the yield command - this will render whatever file we s
   <body>
     <div class="container">
       <h1>Welcome to Fwitter!</h1>
-
-     <!--  For example, when we go to our home page, Sinatra render everything up until this point. Once we hit the yield, Sinatra will render everything in index.erb -->
       <%= yield %> 
-      <! Once everything in index has been rendered, Sinatra will render everything else on the layout page. -->
+      
       <div class="footer">
         <h4><a href="/tweet">Tweet</a> | <a href="/users">Users</a></h4>
       </div>

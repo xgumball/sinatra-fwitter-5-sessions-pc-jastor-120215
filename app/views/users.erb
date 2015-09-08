@@ -1,14 +1,11 @@
-<!-- This page lists out each of the user's names the same way we list out all of the tweets. 
- -->
 <h2>Users</h2>
 <% @users.each do |user| %>
-  <p><%= user.name %></p>
+  <p><%= user.username %></p>
 <% end %>
 
-<!-- It also inclues a form to sign-up with a method of "post" and an action of "/sign-up" -->
 <h3>Sign Up</h3>
 <form action="/sign-up" method="POST">
-  <p>Name: <input type="text" name="name"></p>
+  <p>Name: <input type="text" name="username"></p>
   <p>Email: <input type="text" name="email"></p>
   <input class="btn btn-primary" type="submit">
 </form>
