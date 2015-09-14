@@ -293,6 +293,7 @@ Now, let's use these helper methods to build out our nav bar. If the user is log
 </body>
 ``` 
 If there's no current user, we'll show them a link to either sign up or login.
+
 ```erb
 <body>
 	<nav>
