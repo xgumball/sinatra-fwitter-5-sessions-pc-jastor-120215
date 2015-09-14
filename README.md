@@ -8,13 +8,17 @@
 
 ## Overview
 
-Two of the most important aspects of social media applications are authentication and authorization. In a nutshell, authentication means having a user identify themselves in your application, while authorization determines what privelages a user has. For example, anyone can view other people's Tweets on Twitter, but only logged in users can post new content. 
+Two of the most important aspects of social media applications are authentication and authorization. In a nutshell, authentication means having a user identify themselves in your application, while authorization determines what a user is able to do. For example, anyone can view other people's Tweets on Twitter, but only logged in users can post new content. 
 
 Today, we'll be updating our Fwitter application so that only logged in users can post content, and new tweets will automatically be associated with the logged in user.
 
 ## Instructions
 
+### Setup
+
 Fork, clone, and run `bundle install` and `rake db:migrate` to get started!
+
+Notice that we're now using a file called `layout.erb`. This is some Sinatra magic so we don't have to write our HTML shell every time. This file will get rendered on every get request. When `yield` is called, Sinatra will render whichever template we instructed it to (`index.erb`, `tweet.erb`, etc.) Afterwards, it will come back and render the rest of the layout. This means we can write some code only once and have it appear on every page. 
 
 ### Part 1: Enabling Sessions
 
@@ -31,8 +35,6 @@ Sessions are disabled in Sinatra by default, so we need to enable them before do
 ```
 
 ### Part 2: The Login Form
-
-Notice that we're now using a file called `layout.erb`. This is some Sinatra magic so we don't have to write our HTML shell every time. This file will get rendered on every get request. When `yield` is called, Sinatra will render whichever template we instructed it to (`index.erb`, `tweet.erb`, etc.) Afterwards, it will come back and render the rest of the layout. This means we can write some code only once and have it appear on every page. 
 
 We need to build out a form where a user can log in. The most basic form of authentication is simply asking for a username (we'll pretend that everyone is honest and only types in their username.) Create a new file, `login.erb` and build a form with an input for username.
 
@@ -131,8 +133,8 @@ Let's handle our else case first. If we don't find a user, we'll simply redirect
 ```ruby
   post '/login' do
   	 user = User.find_by(:username => params[:username])
-  	 if user != nil
-  	 	#log the user in
+  	 if user
+  	   #log the user in
   	 else
   	 	redirect "/signup"
   	 end
@@ -143,7 +145,7 @@ Awesome! If we do find that user, we need to first set the `session[:user_id]` t
 ```ruby
   post '/login' do
   	 user = User.find_by(:username => params[:username])
-  	 if user != nil
+  	 if user
   	 	session[:user_id] = user.id
   	 	redirect "/"
   	 else
@@ -210,14 +212,14 @@ Awesome! Now, new tweets will be automatically assocaited with a logged in user!
 This is great, but what if a user wants to logout? For that, we simply need to clear the session data. Build out a new route in your controller for "/logout".
 
 ```ruby
-  get 'logout' do
+  get '/logout' do
   end
 ```
 
 Inside of this request, we'll destory any data associated with the session by calling the `destroy` method.
 
 ```ruby
-  get 'logout' do
+  get '/logout' do
     session.destroy
     redirect '/login'
   end
@@ -227,7 +229,7 @@ This will simply clear the session hash and redirect us to the "/login" page. Aw
 
 ### Part 5: Building a Nav Bar
 
-Now for some extra fun: let's build out a nav bar for our site. If a user is logged in, it will show their username and give them a link to logout. If they're not logged in, they'll see links to either login or signup.
+Now for some extra fun: let's build out a nav bar for our site. If a user is logged in, it will show their username and give them a link to logout or post a new tweet. If they're not logged in, they'll see links to either login or signup.
 
 We'll build this out in `layout.erb`, so that it will show up in every page. To make things easier and make our code read better, we'll setup some helper methods in our application controller. We can set these up using a block called "helpers". First, we'll add a method called `logged_in?` which will return true if there is a session[:user_id]. 
 
@@ -271,6 +273,7 @@ Now, let's use these helper methods to build out our nav bar. If the user is log
       <ul>
         <% if logged_in? %>
         	<li>Welcome, <%= current_user.username %></li>
+        	<li><a href="/tweet">Post a Tweet!</a></li>
         	<li><a href="/logout">Logout</a></li>
         <% end %>
       </ul>
@@ -290,6 +293,7 @@ If there's no current user, we'll show them a link to either sign up or login.
       <ul>
         <% if logged_in? %>
         	<li>Welcome, <%= current_user.username %></li>
+        	<li><a href="/tweet">Post a Tweet!</a></li>
         	<li><a href="/logout">Logout</a></li>
         <% else %>
         	<li><a href="/login">Login</a></li>
@@ -307,6 +311,3 @@ If there's no current user, we'll show them a link to either sign up or login.
 
 Awesome! We've now used a session to create a different user expereince for people who are logged in or not!
 
-## Resources
-
-* [Stack Exchange](http://www.stackexchange.com) - [Some Question on Stack Exchange](http://www.stackexchange.com/questions/123)
