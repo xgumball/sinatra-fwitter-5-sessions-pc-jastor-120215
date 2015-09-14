@@ -217,6 +217,23 @@ Awesome! Now, new tweets will be automatically assocaited with a logged in user!
 
 ### Part 4: Ending a Session
 
+This is great, but what if a user wants to logout? For that, we simply need to clear the session data. Build out a new route in your controller for "/logout".
+
+```ruby
+  get 'logout' do
+  end
+```
+
+Inside of this request, we'll destory any data associated with the session by calling the `destroy` method.
+
+```ruby
+  get 'logout' do
+    session.destroy
+    redirect '/login'
+  end
+```
+
+This will simply clear the session hash and redirect us to the "/login" page. Awesome!
 
 ## Resources
 
