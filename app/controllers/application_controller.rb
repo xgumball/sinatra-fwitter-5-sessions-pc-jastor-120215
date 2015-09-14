@@ -14,7 +14,6 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/tweet' do
-    @users = User.all
     erb :tweet
   end
 
