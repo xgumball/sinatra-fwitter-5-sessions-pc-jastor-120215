@@ -205,7 +205,7 @@ We can now update our `post "tweet"` action to find the user by the session id i
   end
 ```
 
-Awesome! Now, new tweets will be automatically assocaited with a logged in user!
+Awesome! Now, new tweets will be automatically associated with a logged in user!
 
 ### Part 4: Ending a Session
 
@@ -216,7 +216,7 @@ This is great, but what if a user wants to logout? For that, we simply need to c
   end
 ```
 
-Inside of this request, we'll destory any data associated with the session by calling the `destroy` method.
+Inside of this request, we'll destroy any data associated with the session by calling the `destroy` method.
 
 ```ruby
   get '/logout' do
@@ -246,7 +246,7 @@ We'll build this out in `layout.erb`, so that it will show up in every page. To 
   end
 ```
 
-Next, let's add a method called "current_user" which loads that user based on the session[:user_id]
+Next, let's add a method called `current_user` which loads that user based on the session[:user_id]
 
 ```ruby
   configure do
@@ -309,5 +309,5 @@ If there's no current user, we'll show them a link to either sign up or login.
 </body>
 ``` 
 
-Awesome! We've now used a session to create a different user expereince for people who are logged in or not!
+Awesome! We've now used a session to create a different user experience for people who are logged in or not!
 
