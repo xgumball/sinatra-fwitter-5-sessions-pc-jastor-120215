@@ -20,7 +20,7 @@ class ApplicationController < Sinatra::Base
 
   post '/tweet' do
     user = User.find_by(:username => params[:username])
-    tweet = Tweet.new(:user_id => user.id, :status => params[:status])
+    tweet = Tweet.new(:user => user, :status => params[:status])
     tweet.save
     redirect '/'
   end
