@@ -162,7 +162,61 @@ Awesome! If we do find that user, we need to first set the `session[:user_id]` t
   end
 ```
 
-Awesome job - we're now storing that 
+Awesome job - we're now storing the current user's id in our session! Let's see how we can use that to update how our user is tweeting. 
+
+### Part 3: Adding Authorization
+
+Next, let's add some logic to our application to determine when a user can view certain items. We'll set up our application so that any user can view tweets, but you must be logged in to post new content. Let's update our "/tweet" route so that non-logged in users get redirected to the "/login" route. In pseudo-code, this would look something like this:
+
+```ruby
+  get '/tweet' do
+    # if there's a session[:user_id]
+    	# erb :tweet
+    # else
+    #   redirect to the login page
+    # end    
+  end
+
+```
+
+Not too hard, right? We can write this in actual Ruby code as follows: 
+
+```ruby
+  get '/tweet' do
+    if session[:user_id] #returns nil if there isn't one
+      erb :tweet
+    else
+      redirect "/login"
+    end
+  end
+
+```
+
+Awesome! Next, let's update our new tweet form in `tweet.erb` so that a user no longer enters their username.
+
+```erb
+<h2>Add a tweet</h2>
+<form action="/tweet" method="POST">
+  <p>Status: <input type="text" name="status"></p>
+  <input class="btn btn-primary" type="submit">
+</form>
+```
+
+We can now update our `post "tweet"` action to find the user by the session id instead of what's in params. 
+
+```ruby
+  post '/tweet' do
+    user = User.find_by(:user_id => session[:user_id])
+    tweet = Tweet.new(:user => user, :status => params[:status])
+    tweet.save
+    redirect '/'
+  end
+```
+
+Awesome! Now, new tweets will be automatically assocaited with a logged in user!
+
+### Part 4: Ending a Session
+
 
 ## Resources
 
