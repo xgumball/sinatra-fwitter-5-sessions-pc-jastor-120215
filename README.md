@@ -24,11 +24,145 @@ Today, we'll be updating our Fwitter application so that only logged in users ca
 
 ## Instructions
 
-Create make the tests pass Heroku lab. API Nokogiri guest speaker belongs_to RESTful binder.ply. Url Rails slack it to me. Asset pipeline Feelings Friday puts "woof" API open source.
+Fork, clone, and run `bundle install` and `rake db:migrate` to get started!
 
-Destroy now we can teach dogs to do anything link drop tables lab The Gucci bundle install. Associations def iterate infobesity Twitter. Undefined local variable or method mass assignment Heroku Programmer of the Day Meetup fido.bark. Internet create. Ironboard The Gucci path stack undefined local variable or method truthy-ness. Sqlite3 scooter blog posts DRY The Gucci cat. Truthy-ness bundle.
+### Part 1: Enabling Sessions
 
-### Part 1: Do Some Stuff
+Sessions are disabled in Sinatra by default, so we need to enable them before doing anything else. In the configure block of your application controller, enable sessions and add a session secret.
+
+```ruby
+  configure do
+    set :public_folder, 'public'
+    set :views, 'app/views'
+    enable :sessions
+    set :session_secret, "fwitter_secret"
+  end
+
+```
+
+### Part 2: The Login Form
+
+Notice that we're now using a file called `layout.erb`. This is some Sinatra magic so we don't have to write our HTML shell every time. This file will get rendered on every get request. When `yield` is called, Sinatra will render whichever template we instructed it to (`index.erb`, `tweet.erb`, etc.) Afterwards, it will come back and render the rest of the layout. This means we can write some code only once and have it appear on every page. 
+
+We need to build out a form where a user can log in. The most basic form of authentication is simply asking for a username (we'll pretend that everyone is honest and only types in their username.) Create a new file, `login.erb` and build a form with an input for username.
+
+```erb
+<h1>Login to Fwitter!</h1>
+<form method="post" action="/login">
+  <input type="text" name="username" placeholder="Username:">
+  <input type="submit">
+</form>
+```
+
+Build on a controller action to render the form - the route should be `get '/login'`.
+
+```ruby
+  get '/login' do
+    erb :login
+  end
+
+```
+
+### Logging In
+
+Next, let's build out what happens when the user presses submit on out form. We gave our login form a method of "post" and an action of "/login" - let's build that into our controller.
+
+```ruby
+  get '/login' do
+    erb :login
+  end
+  
+  post '/login' do
+    'hello login request'
+  end
+
+```
+
+Submit your form and you should see "hello login request". Awesome! Next, let's see what `params` looks like.
+
+```ruby
+  get '/login' do
+    erb :login
+  end
+  
+  post '/login' do
+  	 puts params
+    'hello login request'
+  end
+
+```
+
+In your terminal, you should see something like this: 
+
+```bash
+{"username" => "the_username_i_typed_in"}
+```
+
+Let's use that information to find the user in our database. 
+
+```ruby
+  post '/login' do
+  	 user = User.find_by(:username => params[:username])
+    'hello login request'
+  end
+
+```
+
+Here, we'll have two different branches. Either we'll find a user in our database or we won't. If `user` is not equal to nil, we'll log the user in. Othewise, we'll send them to the signup page. In psuedo-code, this looks something like this. 
+
+```ruby
+  post '/login' do
+  	 user = User.find_by(:username => params[:username])
+  	 if user != nil
+  	 	#log the user in
+  	 else
+  	 	#send them to sign up!
+  	 end
+  end
+
+```
+
+Because any user that's found is a "truthy" value, we can also write this as:
+
+```ruby
+  post '/login' do
+  	 user = User.find_by(:username => params[:username])
+  	 if user
+  	 	#log the user in
+  	 else
+  	 	#send them to sign up!
+  	 end
+  end
+
+```
+
+Let's handle our else case first. If we don't find a user, we'll simply redirect them to the "/signup" route.
+
+```ruby
+  post '/login' do
+  	 user = User.find_by(:username => params[:username])
+  	 if user != nil
+  	 	#log the user in
+  	 else
+  	 	redirect "/signup"
+  	 end
+  end
+```
+Awesome! If we do find that user, we need to first set the `session[:user_id]` to be that user's id, then redirect them to the home page. 
+
+```ruby
+  post '/login' do
+  	 user = User.find_by(:username => params[:username])
+  	 if user != nil
+  	 	session[:user_id] = user.id
+  	 	redirect "/"
+  	 else
+  	 	redirect "/signup"
+  	 end
+  end
+```
+
+Awesome job - we're now storing that 
 
 ## Resources
 
