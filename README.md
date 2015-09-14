@@ -235,6 +235,87 @@ Inside of this request, we'll destory any data associated with the session by ca
 
 This will simply clear the session hash and redirect us to the "/login" page. Awesome!
 
+### Part 5: Building a Nav Bar
+
+Now for some extra fun: let's build out a nav bar for our site. If a user is logged in, it will show their username and give them a link to logout. If they're not logged in, they'll see links to either login or signup.
+
+We'll build this out in `layout.erb`, so that it will show up in every page. To make things easier and make our code read better, we'll setup some helper methods in our application controller. We can set these up using a block called "helpers". First, we'll add a method called `logged_in?` which will return true if there is a session[:user_id]. 
+
+```ruby
+  configure do
+    set :public_folder, 'public'
+    set :views, 'app/views'
+  end
+  
+  helpers do
+    def logged_in?
+      session[:user_id]
+    end
+  end
+```
+
+Next, let's add a method called "current_user" which loads that user based on the session[:user_id]
+
+```ruby
+  configure do
+    set :public_folder, 'public'
+    set :views, 'app/views'
+  end
+  
+  helpers do
+    def logged_in?
+      session[:user_id]
+    end
+    
+    def current_user
+      User.find(session[:user_id])
+    end
+  end
+```
+
+Now, let's use these helper methods to build out our nav bar. If the user is logged in, let's display the current user's username and show them a link to log out.
+
+```erb
+<body>
+	<nav>
+      <ul>
+        <% if logged_in? %>
+        	<li>Welcome, <%= current_user.username %></li>
+        	<li><a href="/logout">Logout</a></li>
+        <% end %>
+      </ul>
+    </nav>
+	<div class="container">
+	
+	  <h1>Welcome to Fwitter!</h1>
+	  
+	  <%= yield %> 	  
+</body>
+``` 
+If there's no current user, we'll show them a link to either sign up or login.
+```erb
+<body>
+	<nav>
+      <ul>
+        <% if logged_in? %>
+        	<li>Welcome, <%= current_user.username %></li>
+        	<li><a href="/logout">Logout</a></li>
+        <% else %>
+        	<li><a href="/login">Login</a></li>
+        	<li><a href="/signup">Sign Up</a></li>
+        <% end %>
+      </ul>
+    </nav>
+	<div class="container">
+	
+	  <h1>Welcome to Fwitter!</h1>
+	  
+	  <%= yield %> 	  
+</body>
+``` 
+
+Awesome! We've now used a session to create a different user expereince for people who are logged in or not!
+
 ## Resources
 
 * [Stack Exchange](http://www.stackexchange.com) - [Some Question on Stack Exchange](http://www.stackexchange.com/questions/123)
