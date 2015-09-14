@@ -10,11 +10,17 @@
 7. Add logic so that the new tweet form is only displayed to logged_in users.
 8. Add helper methods: `current_user` to return the user based on session[:id] and `logged_in?` to return true or false based on the presence of a session[:user_id]
 
-
 ## Objectives
 
-1. Objective 1
-2. Objective 2
+1. Understand the difference between authentication and authorization
+2. Implement sessions into our Sinatra applications
+3. Use session data to change content based on whether or not a user is logged in.
+
+## Overview
+
+Two of the most important aspects of social media applications are authentication and authorization. In a nutshell, authentication means having a user identify themselves in your application, while authorization determines what privelages a user has. For example, anyone can view other people's Tweets on Twitter, but only logged in users can post new content. 
+
+
 
 ## Instructions
 
