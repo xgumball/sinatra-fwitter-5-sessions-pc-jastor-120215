@@ -20,7 +20,7 @@
 
 Two of the most important aspects of social media applications are authentication and authorization. In a nutshell, authentication means having a user identify themselves in your application, while authorization determines what privelages a user has. For example, anyone can view other people's Tweets on Twitter, but only logged in users can post new content. 
 
-
+Today, we'll be updating our Fwitter application so that only logged in users can post content, and new tweets will automatically be associated with the logged in user.
 
 ## Instructions
 
