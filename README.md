@@ -1,15 +1,5 @@
 # Sinatra Fwitter 5 -  Sessions
 
-## Outline
-1. Explain the difference between authentication and authorization. The most basic form of authentication is simply asking for a username.
-2. Enable sessions and set a session secret in the application controller.
-3. Create a template called `login.erb` with a form asking for a username. 
-4. Update the application controller - upon submission of the form, find the user by username and set the session[:user_id] to that user's id. If no user is found, redirect to signup.
-5. Update the new tweet form so that the user is set by the current user in the session id, instead of asking for a user's username. 
-6. Create a `/logout` route that destroys the session. 
-7. Add logic so that the new tweet form is only displayed to logged_in users.
-8. Add helper methods: `current_user` to return the user based on session[:id] and `logged_in?` to return true or false based on the presence of a session[:user_id]
-
 ## Objectives
 
 1. Understand the difference between authentication and authorization
