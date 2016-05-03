@@ -1,16 +1,33 @@
 <!doctype html>
 <html>
   <head>
-    <title>Week 4</title>
+    <title>Fwitter</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" href="http://www.androidbeat.com/wp-content/uploads/2014/11/image-Twitter-logo.png">
   </head>
   <body>
-
+   
+    <nav class="navbar navbar-inverse tacos">
+      <ul class="dot">
+        <% if logged_in? %>
+            <li class="username">Welcome, <%= current_user.username %></li>
+            <li><a href="/tweet" type="button" class="btn btn-info">Post a Tweet!</a></li>
+            <li><a href="/logout" type="button" class="btn btn-info">Logout</a></li>
+        <% else %>
+            <li><a href="/login" type="button" class="btn btn-info" >Login</a></li>
+            <li><a href="/signup" type="button" class="btn btn-info">Sign Up</a></li>
+        <% end %>
+      </ul>
+    </nav>
     <div class="container">
-      <h1>Welcome to Fwitter!</h1>
-      <%= yield %> 
-      
+ 
+     <center> <h1>Welcome to Fwitter!</h1> <center>
+ 
+      <%= yield %>    
+
       
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>

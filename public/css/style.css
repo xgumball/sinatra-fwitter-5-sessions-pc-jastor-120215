@@ -11,3 +11,29 @@
 .footer {
   margin-top: 25px;
 }
+
+.tacos {
+  background-color:black;
+  
+}
+ .dot{
+  list-style:none;
+  
+}
+
+.username {
+  color:white;
+}
+.btn-info{
+  margin-top:10px;
+}
+.color {
+  color:#00BFFF;
+}
+
+body{
+  background-image: url(http://images.freecreatives.com/wp-content/uploads/2016/02/Smooth-Silver-Metal-Background-Texture-for-Graphics.jpg);
+}
+.size-post{
+  font-size:20px;
+}
